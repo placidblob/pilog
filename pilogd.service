@@ -1,3 +1,5 @@
+# http://stackoverflow.com/questions/13069634/python-daemon-and-systemd-service
+
 [Unit]
 Description=Text
 After=syslog.target

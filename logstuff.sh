@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-acpi -t >> $1
+acpi -t | awk '{print $4}' >> $1

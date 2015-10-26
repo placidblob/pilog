@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-acpi -t | awk '{print $4}' >> $1
+echo `date "+%Y/%m/%d %T"` `acpi -t | awk '{print $4}'` >> $1

@@ -1,0 +1,14 @@
+[Unit]
+Description=Text
+After=syslog.target
+
+[Service]
+Type=forking
+#User=node
+#Group=node
+WorkingDirectory=/opt/pilog
+PIDFile=/var/run/pilog.pid
+ExecStart=/opt/pilog/pilogd.py
+
+[Install]
+WantedBy=multi-user.target

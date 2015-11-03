@@ -8,7 +8,10 @@ pfd = pifacedigitalio.PiFaceDigital()
 i = 0
 try:
     while(True):
+        # invert LED state
         pfd.output_pins[0].value = not pfd.output_pins[0].value
+
+        # sleep like KIT
         i += 1
         slp = abs(50 - (i % 100))
         sleep(slp / 100.0)

@@ -1,3 +1,4 @@
+# source: http://www.piface.org.uk/assets/docs/PiFace-Digital2_getting-started.pdf
 # remember to do: apt-get install python3-pifacedigitalio
 
 import pifacedigitalio

@@ -6,6 +6,7 @@ import sys
 
 NUM_MOLES = 8  # max 4
 NUM_LOOPS = 100
+BLINK=0.015
 
 class LED(object):
     def __init__(self, number, pifacedigital):
@@ -68,8 +69,8 @@ class Maestro(object):
         for k in range(num_times):
             for i in range(NUM_MOLES * 2):
                 self.leds[i % NUM_MOLES].toggle()
-                sleep(0.015)
-            sleep(0.015)
+                sleep(BLINK)
+            sleep(BLINK)
         self.all_off()
 
 

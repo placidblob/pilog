@@ -7,44 +7,41 @@ import sys
 NUM_MOLES = 8  # max 4
 
 
-class Mole(object):
+class LED(object):
     def __init__(self, number, pifacedigital):
         self.led = pifacedigital.leds[number]
-        self.hiding = True
+        self._is_active = False
 
     @property
-    def hiding(self):
-        return self._is_hiding
+    def active(self):
+        return self._is_active
 
-    @hiding.setter
-    def hiding(self, should_hide):
-        if should_hide:
-            self.hide()
+    @active.setter
+    def active(self, should_show):
+        if should_show:
+            self.on()
         else:
-            self.show()
+            self.off()
 
-    def hide(self):
+    def off(self):
         self.led.turn_off()
-        self._is_hiding = True
+        self._is_active = False
 
-    def show(self):
+    def on(self):
         self.led.turn_on()
-        self._is_hiding = False
+        self._is_active = True
 
     def toggle(self):
-        self.hiding = not self.hiding
+        self.active = not self.active
 
 
-class WhackAMoleGame(object):
+class Maestro(object):
     def __init__(self):
-        #local variables
-        self.should_stop = False
-
         # init piface
         self.pifacedigital = pifacedigitalio.PiFaceDigital()
 
         # framework init
-        self.moles = [Mole(i, self.pifacedigital) for i in range(NUM_MOLES)]
+        self.leds = [LED(i, self.pifacedigital) for i in range(NUM_MOLES)]
 
         # output init
         self.inputlistener = pifacedigitalio.InputEventListener(chip=self.pifacedigital)
@@ -68,13 +65,13 @@ class WhackAMoleGame(object):
 
     def do_your_thing(self):
         for i in range(NUM_MOLES):
-            self.moles[i].toggle()
+            self.leds[i].toggle()
             sleep(1)
         self.flash_leds()
 
 
 if __name__ == "__main__":
-    game = WhackAMoleGame()
+    game = Maestro()
     try:
         game.do_your_thing()
     except :

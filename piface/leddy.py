@@ -65,8 +65,10 @@ class Maestro(object):
         self.pifacedigital.output_port.all_off()
 
     def do_your_thing(self, num_times = 1):
-        for i in range(NUM_MOLES * num_times * 2):
-            self.leds[i % NUM_MOLES].toggle()
+        for k in range(num_times):
+            for i in range(NUM_MOLES * 2):
+                self.leds[i % NUM_MOLES].toggle()
+                sleep(0.015)
             sleep(0.015)
         self.all_off()
 

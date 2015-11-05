@@ -67,8 +67,8 @@ class Maestro(object):
     def do_your_thing(self, num_times = 1):
         for i in range(NUM_MOLES * num_times * 2):
             self.leds[i % NUM_MOLES].toggle()
-            sleep(0.03)
-        self.flash_leds()
+            sleep(0.015)
+        self.all_off()
 
 
 if __name__ == "__main__":

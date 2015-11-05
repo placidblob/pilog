@@ -4,7 +4,7 @@ from random import randint, random
 import pifacedigitalio
 import sys
 
-NUM_MOLES = 8  # max 4
+NUM_LEDS = 8  # max 4
 NUM_LOOPS = 100
 BLINK=0.015
 
@@ -42,7 +42,7 @@ class Maestro(object):
         self.pifacedigital = pifacedigitalio.PiFaceDigital()
 
         # framework init
-        self.leds = [LED(i, self.pifacedigital) for i in range(NUM_MOLES)]
+        self.leds = [LED(i, self.pifacedigital) for i in range(NUM_LEDS)]
 
         # output init
         self.inputlistener = pifacedigitalio.InputEventListener(chip=self.pifacedigital)
@@ -55,20 +55,13 @@ class Maestro(object):
         print(event.pin_num + 1)
         self.do_your_thing(event.pin_num + 1)
 
-    def flash_leds(self):
-        self.pifacedigital.output_port.all_on()
-        for i in range(2):
-            self.pifacedigital.output_port.toggle()
-            sleep(0.1)
-        self.pifacedigital.output_port.all_off()
-
     def all_off(self):
         self.pifacedigital.output_port.all_off()
 
     def do_your_thing(self, num_times = 1):
         for k in range(num_times):
-            for i in range(NUM_MOLES * 2):
-                self.leds[i % NUM_MOLES].toggle()
+            for i in range(NUM_LEDS * 2):
+                self.leds[i % NUM_LEDS].toggle()
                 sleep(BLINK)
             sleep(BLINK)
         self.all_off()

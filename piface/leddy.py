@@ -5,7 +5,7 @@ import pifacedigitalio
 import sys
 
 NUM_MOLES = 8  # max 4
-
+NUM_LOOPS = 10
 
 class LED(object):
     def __init__(self, number, pifacedigital):
@@ -64,9 +64,9 @@ class Maestro(object):
         self.pifacedigital.output_port.all_off()
 
     def do_your_thing(self):
-        for i in range(NUM_MOLES):
-            self.leds[i].toggle()
-            sleep(1)
+        for i in range(NUM_MOLES * NUM_LOOPS):
+            self.leds[i % 8].toggle()
+            sleep(0.05)
         self.flash_leds()
 
 
@@ -77,5 +77,4 @@ if __name__ == "__main__":
     except :
         print("bye")
         game.all_off()
-        sys.exit(0)
         sys.exit(0)

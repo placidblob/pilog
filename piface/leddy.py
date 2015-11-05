@@ -56,7 +56,7 @@ class Maestro(object):
 
     def flash_leds(self):
         self.pifacedigital.output_port.all_on()
-        for i in range(4):
+        for i in range(2):
             self.pifacedigital.output_port.toggle()
             sleep(0.1)
         self.pifacedigital.output_port.all_off()
@@ -65,7 +65,7 @@ class Maestro(object):
         self.pifacedigital.output_port.all_off()
 
     def do_your_thing(self, num_times = 1):
-        for i in range(NUM_MOLES * num_times):
+        for i in range(NUM_MOLES * num_times * 2):
             self.leds[i % NUM_MOLES].toggle()
             sleep(0.05)
         self.flash_leds()

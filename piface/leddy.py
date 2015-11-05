@@ -5,7 +5,7 @@ import pifacedigitalio
 import sys
 
 NUM_MOLES = 8  # max 4
-NUM_LOOPS = 10
+NUM_LOOPS = 100
 
 class LED(object):
     def __init__(self, number, pifacedigital):
@@ -47,15 +47,16 @@ class Maestro(object):
         self.inputlistener = pifacedigitalio.InputEventListener(chip=self.pifacedigital)
         for i in range(4):
             self.inputlistener.register(
-                i, pifacedigitalio.IODIR_FALLING_EDGE, self.hit_mole)
+                i, pifacedigitalio.IODIR_FALLING_EDGE, self.btn_press)
         self.inputlistener.activate()
 
-    def hit_mole(self, event):
-        print("You pressed", event.pin_num)
+    def btn_press(self, event):
+        print(event.pin_num + 1)
+        self.do_your_thing(event.pin_num + 1)
 
     def flash_leds(self):
         self.pifacedigital.output_port.all_on()
-        for i in range(10):
+        for i in range(4):
             self.pifacedigital.output_port.toggle()
             sleep(0.1)
         self.pifacedigital.output_port.all_off()
@@ -63,9 +64,9 @@ class Maestro(object):
     def all_off(self):
         self.pifacedigital.output_port.all_off()
 
-    def do_your_thing(self):
-        for i in range(NUM_MOLES * NUM_LOOPS):
-            self.leds[i % 8].toggle()
+    def do_your_thing(self, num_times = 1):
+        for i in range(NUM_MOLES * num_times):
+            self.leds[i % NUM_MOLES].toggle()
             sleep(0.05)
         self.flash_leds()
 

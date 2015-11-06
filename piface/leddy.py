@@ -24,12 +24,14 @@ class LED(object):
         else:
             self.off()
 
-    def off(self):
-        self.led.turn_off()
+    def off(self, send=True):
+        if send:
+            self.led.turn_off()
         self._is_active = False
 
-    def on(self):
-        self.led.turn_on()
+    def on(self, send=True):
+        if send:
+            self.led.turn_on()
         self._is_active = True
 
     def toggle(self):
@@ -57,6 +59,8 @@ class Maestro(object):
 
     def all_off(self):
         self.pifacedigital.output_port.all_off()
+        for l in self.leds:
+            l.off(False)
 
     def do_your_thing(self, num_times = 1):
         for k in range(num_times):

@@ -39,13 +39,17 @@ class LED(object):
 
 
 class Maestro(object):
-    def __init__(self):
+    def __init__(self, listen=True):
         # init piface
         self.pifacedigital = pifacedigitalio.PiFaceDigital()
 
         # framework init
         self.leds = [LED(i, self.pifacedigital) for i in range(NUM_LEDS)]
 
+        if listen:
+            self.initlistener()
+
+    def initlistener(self):
         # output init
         self.inputlistener = pifacedigitalio.InputEventListener(chip=self.pifacedigital)
         for i in range(4):

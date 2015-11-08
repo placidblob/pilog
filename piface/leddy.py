@@ -66,7 +66,7 @@ class Maestro(object):
         for l in self.leds:
             l.off(False)
 
-    def do_your_thing(self, num_times = 1):
+    def do_your_thing(self, num_times=1):
         for k in range(num_times):
             for i in range(NUM_LEDS * 2):
                 self.leds[i % NUM_LEDS].toggle()
@@ -76,10 +76,16 @@ class Maestro(object):
 
 
 if __name__ == "__main__":
-    game = Maestro()
+    args = sys.argv
+
+    game = Maestro(len(args) == 0)
+
     try:
-        game.do_your_thing()
-    except :
+        if len(args) == 0:
+            game.do_your_thing()
+        else:
+            game.do_your_thing(args[1])
+    except KeyboardInterrupt:
         print("bye")
         game.all_off()
-        sys.exit(0)
+        sys.exit()

@@ -34,12 +34,18 @@ class LED(object):
             self.led.turn_on()
         self._is_active = True
 
+    def set(self, setto):
+        if setto:
+            self.on()
+        else:
+            self.off()
+
     def toggle(self):
         self.active = not self.active
 
 
 class Maestro(object):
-    def __init__(self, listen=True):
+    def __init__(self, listen=False):
         # init piface
         self.pifacedigital = pifacedigitalio.PiFaceDigital()
 
@@ -78,13 +84,19 @@ class Maestro(object):
 if __name__ == "__main__":
     args = sys.argv
 
-    game = Maestro(len(args) == 0)
+    game = Maestro()
 
     try:
         if len(args) == 0:
             game.do_your_thing()
         else:
-            game.do_your_thing(args[1])
+            i = 0
+            for c in args[1]:
+                if c != 'x':
+                    game.leds[i % 8].set(c == '1')
+                i += 1
+
+            # game.do_your_thing(int(args[1]))
     except KeyboardInterrupt:
         print("bye")
         game.all_off()

@@ -25,12 +25,12 @@ class LED(object):
             self.off()
 
     def off(self, send=True):
-        if send:
+        if send and self._is_active:
             self.led.turn_off()
         self._is_active = False
 
     def on(self, send=True):
-        if send:
+        if send and not self._is_active:
             self.led.turn_on()
         self._is_active = True
 
@@ -80,6 +80,32 @@ class Maestro(object):
             sleep(BLINK)
         self.all_off()
 
+    def load_mask(self, mask):
+        i = 0
+        for c in mask:
+            if c != 'x':
+                game.leds[i % 8].set(c == '1')
+            i += 1
+
+    def do_input_file(self, fname):
+        with open(fname) as f:
+            lines = f.readlines()
+
+        slp = 200
+        times_limit = 1
+        times_so_far = 0
+
+        while times_so_far < times_limit:
+            for m in lines:
+                if m[0] == ':':
+                    slp = int(m[1:])
+                elif m[0] == '*':
+                    times_limit = int(m[1:])
+                else:
+                    game.load_mask(m)
+                    sleep(float(slp) / 1000.0)
+
+            times_so_far += 1
 
 if __name__ == "__main__":
     args = sys.argv
@@ -90,12 +116,10 @@ if __name__ == "__main__":
         if len(args) == 0:
             game.do_your_thing()
         else:
-            i = 0
-            for c in args[1]:
-                if c != 'x':
-                    game.leds[i % 8].set(c == '1')
-                i += 1
-
+            if args[1][0] == ':':
+                game.do_input_file(args[1][1:])
+            else:
+                game.load_mask(args[1])
             # game.do_your_thing(int(args[1]))
     except KeyboardInterrupt:
         print("bye")
